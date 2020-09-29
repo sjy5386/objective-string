@@ -10,6 +10,7 @@ typedef struct String {
     void (*set)(struct String *, const char *);
     size_t (*length)(struct String *);
     bool (*equals)(struct String *, struct String *);
+    char (*charAt)(struct String *, int);
 } String;
 
 static const char * getString(String *this) {
@@ -31,6 +32,10 @@ static bool equalsString(String *this, String *str) {
     return strcmp(this->str, str->str) == 0;
 }
 
+static char charAtString(String *this, int index) {
+    return this->str[index];
+}
+
 String * newString(const char *str) {
     String *this = (String *) malloc(sizeof(String));
     size_t length = strlen(str);
@@ -41,6 +46,7 @@ String * newString(const char *str) {
     this->set = setString;
     this->length = lengthString;
     this->equals = equalsString;
+    this->charAt = charAtString;
     return this;
 }
 
