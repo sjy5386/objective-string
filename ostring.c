@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdbool.h>
 #include <string.h>
 
 typedef struct String {
@@ -8,6 +9,7 @@ typedef struct String {
     const char * (*get)(struct String *);
     void (*set)(struct String *, const char *);
     size_t (*length)(struct String *);
+    bool (*equals)(struct String *, struct String *);
 } String;
 
 static const char * getString(String *this) {
@@ -25,6 +27,10 @@ static size_t lengthString(String *this) {
     return strlen(this->str);
 }
 
+static bool equalsString(String *this, String *str) {
+    return strcmp(this->str, str->str) == 0;
+}
+
 String * newString(const char *str) {
     String *this = (String *) malloc(sizeof(String));
     size_t length = strlen(str);
@@ -34,6 +40,7 @@ String * newString(const char *str) {
     this->get = getString;
     this->set = setString;
     this->length = lengthString;
+    this->equals = equalsString;
     return this;
 }
 
