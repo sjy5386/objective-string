@@ -18,10 +18,9 @@ static const char * getString(String *this) {
 }
 
 static void setString(String *this, const char *str) {
-    size_t length = strlen(str);
     free(this->str);
-    this->str = (char *) malloc(sizeof(char) * length);
-    strncpy(this->str, str, length);
+    this->str = (char *) malloc(sizeof(char) * strlen(str));
+    strcpy(this->str, str);
 }
 
 static size_t lengthString(String *this) {
@@ -38,10 +37,9 @@ static char charAtString(String *this, int index) {
 
 String * newString(const char *str) {
     String *this = (String *) malloc(sizeof(String));
-    size_t length = strlen(str);
     this->this = this;
-    this->str = (char *) malloc(sizeof(char) * length);
-    strncpy(this->str, str, length);
+    this->str = (char *) malloc(sizeof(char) * strlen(str));
+    strcpy(this->str, str);
     this->get = getString;
     this->set = setString;
     this->length = lengthString;
