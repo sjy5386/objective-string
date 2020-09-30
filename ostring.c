@@ -13,6 +13,7 @@ typedef struct String {
     bool (*equals)(struct String *, struct String *);
     char (*charAt)(struct String *, int);
     int (*indexOf)(struct String *, char);
+    struct String * (*substring)(struct String *, int, int);
     struct String ** (*split)(struct String *, const char *);
 } String;
 
@@ -26,6 +27,7 @@ static bool equalsString(String *, String *);
 static int compareToString(String *, String *);
 static char charAtString(String *, int);
 static int indexOfString(String *, char);
+static String * substringString(String *, int, int);
 static String ** splitString(String *, const char *);
 
 String * newString(const char *str) {
@@ -41,6 +43,7 @@ String * newString(const char *str) {
     this->equals = equalsString;
     this->charAt = charAtString;
     this->indexOf = indexOfString;
+    this->substring = substringString;
     this->split = splitString;
     return this;
 }
@@ -78,9 +81,24 @@ static char charAtString(String *this, int index) {
 
 static int indexOfString(String *this, char c) {
     char str2[2] = {
-        c, '\0'
+        c, NULL
     };
     return strcspn(this->str, str2);
+}
+
+static String * substringString(String *this, int begin, int end) {
+    int len = end - begin + 1;
+    char *buf;
+    String *str;
+    if ((end > strlen(this->str)) || (begin >= end)) {
+        return NULL;
+    }
+    buf = (char *) malloc(sizeof(char) * len);
+    strncpy(buf, &this->str[begin], len);
+    buf[end - begin] = NULL;
+    str = newString(buf);
+    free(buf);
+    return str;
 }
 
 static String ** splitString(String *this, const char *delim) {

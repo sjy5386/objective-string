@@ -9,6 +9,7 @@ int main(int argc, char **argv) {
     String *str1 = newString("Hello, world!");
     String *str2 = newString("Bye, world?");
     String *str3 = newString("objective-string");
+    String *str4;
 
     printf("str1: %s\n", str1->get(str1));
 
@@ -24,6 +25,9 @@ int main(int argc, char **argv) {
 
     printf("w: %d\n", str1->indexOf(str1, 'w'));
 
+    str4 = str1->substring(str1, 5, 10);
+    printf("str1[5..10]: %s\n", str4->get(str4));
+
     arr = str1->split(str1, ", ");
     for (i = 0; arr[i] != NULL; i++) {
         printf("%s\n", arr[i]->get(arr[i]));
@@ -34,6 +38,7 @@ int main(int argc, char **argv) {
     deleteString(str1);
     deleteString(str2);
     deleteString(str3);
+    deleteString(str4);
 
     return 0;
 }
