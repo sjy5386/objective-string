@@ -9,6 +9,7 @@ typedef struct String {
     const char * (*get)(struct String *);
     void (*set)(struct String *, const char *);
     size_t (*length)(struct String *);
+    int (*compareTo)(struct String *, struct String *);
     bool (*equals)(struct String *, struct String *);
     char (*charAt)(struct String *, int);
     struct String ** (*split)(struct String *, const char *);
@@ -21,6 +22,7 @@ static const char * getString(String *);
 static void setString(String *, const char *);
 static size_t lengthString(String *);
 static bool equalsString(String *, String *);
+static int compareToString(String *, String *);
 static char charAtString(String *, int);
 static String ** splitString(String *, const char *);
 
@@ -32,6 +34,7 @@ String * newString(const char *str) {
     this->get = getString;
     this->set = setString;
     this->length = lengthString;
+    this->compareTo = compareToString;
     this->equals = equalsString;
     this->charAt = charAtString;
     this->split = splitString;
@@ -59,6 +62,10 @@ static size_t lengthString(String *this) {
 
 static bool equalsString(String *this, String *str) {
     return strcmp(this->str, str->str) == 0;
+}
+
+static int compareToString(String *this, String *str) {
+    return strcmp(this->str, str->str);
 }
 
 static char charAtString(String *this, int index) {

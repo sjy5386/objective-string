@@ -17,8 +17,8 @@ int main(int argc, char **argv) {
 
     printf("Length of str1: %d\n", str1->length(str1));
 
-    printf("Comparing str1 and str2: %s\n", str1->equals(str1, str2) ? "true" : "false");
-    printf("Comparing str1 and str3: %s\n", str1->equals(str1, str3) ? "true" : "false");
+    printf("Comparing str1 and str2: %s %d\n", str1->equals(str1, str2) ? "true" : "false", str1->compareTo(str1, str2));
+    printf("Comparing str1 and str3: %s %d\n", str1->equals(str1, str3) ? "true" : "false", str1->compareTo(str1, str3));
 
     printf("str1[0]: %c\n", str1->charAt(str1, 0));
 
