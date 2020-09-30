@@ -34,11 +34,14 @@ int main(int argc, char **argv) {
     deleteString(str4);
 
     arr = str1->split(str1, ", ");
-    for (i = 0; arr[i] != NULL; i++) {
+    for (i = 0; arr[i]; i++) {
         printf("%s\n", arr[i]->get(arr[i]));
         deleteString(arr[i]);
     }
-    free(arr);
+    if (arr) {
+        free(arr);
+        arr = NULL;
+    }
 
     deleteString(str1);
     deleteString(str2);
