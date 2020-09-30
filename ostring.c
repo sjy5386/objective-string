@@ -12,6 +12,7 @@ typedef struct String {
     int (*compareTo)(struct String *, struct String *);
     bool (*equals)(struct String *, struct String *);
     char (*charAt)(struct String *, int);
+    int (*indexOf)(struct String *, char);
     struct String ** (*split)(struct String *, const char *);
 } String;
 
@@ -24,6 +25,7 @@ static size_t lengthString(String *);
 static bool equalsString(String *, String *);
 static int compareToString(String *, String *);
 static char charAtString(String *, int);
+static int indexOfString(String *, char);
 static String ** splitString(String *, const char *);
 
 String * newString(const char *str) {
@@ -31,12 +33,14 @@ String * newString(const char *str) {
     this->this = this;
     this->str = (char *) malloc(sizeof(char) * strlen(str));
     strcpy(this->str, str);
+
     this->get = getString;
     this->set = setString;
     this->length = lengthString;
     this->compareTo = compareToString;
     this->equals = equalsString;
     this->charAt = charAtString;
+    this->indexOf = indexOfString;
     this->split = splitString;
     return this;
 }
@@ -70,6 +74,13 @@ static int compareToString(String *this, String *str) {
 
 static char charAtString(String *this, int index) {
     return this->str[index];
+}
+
+static int indexOfString(String *this, char c) {
+    char str2[2] = {
+        c, '\0'
+    };
+    return strcspn(this->str, str2);
 }
 
 static String ** splitString(String *this, const char *delim) {

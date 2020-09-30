@@ -22,6 +22,8 @@ int main(int argc, char **argv) {
 
     printf("str1[0]: %c\n", str1->charAt(str1, 0));
 
+    printf("w: %d\n", str1->indexOf(str1, 'w'));
+
     arr = str1->split(str1, ", ");
     for (i = 0; arr[i] != NULL; i++) {
         printf("%s\n", arr[i]->get(arr[i]));
