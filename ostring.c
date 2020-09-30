@@ -9,10 +9,11 @@ typedef struct String {
     const char * (*get)(struct String *);
     void (*set)(struct String *, const char *);
     size_t (*length)(struct String *);
-    int (*compareTo)(struct String *, struct String *);
     bool (*equals)(struct String *, struct String *);
+    int (*compareTo)(struct String *, struct String *);
     char (*charAt)(struct String *, int);
     int (*indexOf)(struct String *, char);
+    struct String * (*concat)(struct String *, struct String *);
     struct String * (*substring)(struct String *, int, int);
     struct String ** (*split)(struct String *, const char *);
 } String;
@@ -27,6 +28,7 @@ static bool equalsString(String *, String *);
 static int compareToString(String *, String *);
 static char charAtString(String *, int);
 static int indexOfString(String *, char);
+static String * concatString(String *, String *);
 static String * substringString(String *, int, int);
 static String ** splitString(String *, const char *);
 
@@ -39,10 +41,11 @@ String * newString(const char *str) {
     this->get = getString;
     this->set = setString;
     this->length = lengthString;
-    this->compareTo = compareToString;
     this->equals = equalsString;
+    this->compareTo = compareToString;
     this->charAt = charAtString;
     this->indexOf = indexOfString;
+    this->concat = concatString;
     this->substring = substringString;
     this->split = splitString;
     return this;
@@ -84,6 +87,17 @@ static int indexOfString(String *this, char c) {
         c, NULL
     };
     return strcspn(this->str, str2);
+}
+
+static String * concatString(String *this, String *str) {
+    int len = strlen(this->str) + strlen(str->str);
+    char *buf = (char *) malloc(sizeof(char) * len);
+    String *s;
+    strcpy(buf, this->str);
+    strcpy(strchr(buf, NULL), str->str);
+    s = newString(buf);
+    free(buf);
+    return s;
 }
 
 static String * substringString(String *this, int begin, int end) {
