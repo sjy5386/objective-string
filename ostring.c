@@ -131,7 +131,6 @@ static int indexOfString(String *this, char c) {
 }
 
 static String * concatString(String *this, String *str) {
-    int len = 0;
     char *buf = NULL;
     String *s = NULL;
 
@@ -139,10 +138,9 @@ static String * concatString(String *this, String *str) {
         return NULL;
     }
 
-    len = strlen(this->str) + strlen(str->str);
-    buf = (char *) malloc(sizeof(char) * len);
+    buf = (char *) malloc(sizeof(char) * (strlen(this->str) + strlen(str->str)));
     strcpy(buf, this->str);
-    strcpy(strchr(buf, '\0'), str->str);
+    strcat(buf, str->str);
     s = newString(buf);
     free(buf);
     buf = NULL;
