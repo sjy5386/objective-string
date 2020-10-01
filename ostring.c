@@ -5,6 +5,9 @@
  *      Author: Seokjin Yoon
  */
 
+#ifndef OSTRING_H_
+#define OSTRING_H_
+
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
@@ -193,3 +196,5 @@ static String ** splitString(String *this, const char *delim) {
     str = NULL;
     return arr;
 }
+
+#endif // OSTRING_H_
