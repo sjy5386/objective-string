@@ -28,6 +28,8 @@ typedef struct String {
     struct String * (*concat)(struct String *, struct String *);
     struct String * (*substring)(struct String *, int, int);
     struct String ** (*split)(struct String *, const char *);
+    struct String * (*toLowerCase)(struct String *);
+    struct String * (*toUpperCase)(struct String *);
 } String;
 
 String * newString(const char *);
@@ -43,6 +45,8 @@ static int indexOfString(String *, char);
 static String * concatString(String *, String *);
 static String * substringString(String *, int, int);
 static String ** splitString(String *, const char *);
+static String * toLowerCaseString(String *);
+static String * toUpperCaseString(String *);
 
 String * newString(const char *str) { // constructor
     String *this = (String *) malloc(sizeof(String));
@@ -60,6 +64,8 @@ String * newString(const char *str) { // constructor
     this->concat = concatString;
     this->substring = substringString;
     this->split = splitString;
+    this->toLowerCase = toLowerCaseString;
+    this->toUpperCase = toUpperCaseString;
 
     return this;
 }
@@ -166,33 +172,74 @@ static String * substringString(String *this, int begin, int end) {
 }
 
 static String ** splitString(String *this, const char *delim) {
-    char *str = NULL;
+    char *buf = NULL, *p = NULL;
     int i = 0;
-    char *p = NULL;
     String **arr = NULL;
 
     if (!this) {
         return NULL;
     }
 
-    str = (char *) malloc(sizeof(char) * strlen(this->str));
-    strcpy(str, this->str);
-    p = strtok(str, delim);
+    buf = (char *) malloc(sizeof(char) * strlen(this->str));
+    strcpy(buf, this->str);
+    p = strtok(buf, delim);
     for (i = 0; p; i++) {
         p = strtok(NULL, delim);
     }
 
-    strcpy(str, this->str);
+    strcpy(buf, this->str);
     arr = (String **) malloc(sizeof(String *) * (i + 1));
-    p = strtok(str, delim);
+    p = strtok(buf, delim);
     for (i = 0; p; i++) {
         arr[i] = newString(p);
         p = strtok(NULL, delim);
     }
     arr[i] = NULL;
-    free(str);
-    str = NULL;
+    free(buf);
+    buf = NULL;
     return arr;
+}
+
+static String * toLowerCaseString(String *this) {
+    char *buf = NULL, *p = this->str, *q = NULL;
+    String *str = NULL;
+
+    if (!this) {
+        return NULL;
+    }
+
+    buf = (char *) malloc(sizeof(char) * strlen(this->str));
+    q = buf;
+    while (*p) {
+        *q = tolower(*p);
+        p++;
+        q++;
+    }
+    str = newString(buf);
+    free(buf);
+    buf = NULL;
+    return str;
+}
+
+static String * toUpperCaseString(String *this) {
+    char *buf = NULL, *p = this->str, *q = NULL;
+    String *str = NULL;
+
+    if (!this) {
+        return NULL;
+    }
+
+    buf = (char *) malloc(sizeof(char) * strlen(this->str));
+    q = buf;
+    while (*p) {
+        *q = toupper(*p);
+        p++;
+        q++;
+    }
+    str = newString(buf);
+    free(buf);
+    buf = NULL;
+    return str;
 }
 
 #endif // OSTRING_H_

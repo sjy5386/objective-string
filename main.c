@@ -43,6 +43,13 @@ int main(int argc, char **argv) {
         arr = NULL;
     }
 
+    str4 = str1->toLowerCase(str1);
+    printf("str1 toLowerCase: %s\n", str4->get(str4));
+    deleteString(str4);
+    str4 = str1->toUpperCase(str1);
+    printf("str1 toUpperCase: %s\n", str4->get(str4));
+    deleteString(str4);
+
     deleteString(str1);
     deleteString(str2);
     deleteString(str3);
