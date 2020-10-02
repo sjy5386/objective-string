@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "ostring.c"
+#include "ostring.h"
 
 int main(int argc, char **argv) {
     int i;
