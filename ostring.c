@@ -7,10 +7,10 @@
 
 #include "ostring.h"
 
-String * newString(const char *str) { // constructor
+String *newString(const char *str) { // constructor
     String *this = (String *) malloc(sizeof(String));
     this->this = this;
-    this->str = (char *) malloc(sizeof(char) * strlen(str));
+    this->str = (char *) malloc(sizeof(char) * (strlen(str) + 1));
     strcpy(this->str, str);
 
     this->get = getString;
@@ -40,7 +40,7 @@ void deleteString(String *this) { // destructor
     }
 }
 
-static const char * getString(String *this) { // getter
+static const char *getString(String *this) { // getter
     if (!this) {
         return NULL;
     }
@@ -56,7 +56,7 @@ static void setString(String *this, const char *str) { // setter
         free(this->str);
         this->str = NULL;
     }
-    this->str = (char *) malloc(sizeof(char) * strlen(str));
+    this->str = (char *) malloc(sizeof(char) * (strlen(str) + 1));
     strcpy(this->str, str);
 }
 
@@ -87,7 +87,7 @@ static char charAtString(String *this, int index) {
 
 static int indexOfString(String *this, char c) {
     char str2[2] = {
-        c, '\0'
+            c, '\0'
     };
     if (!this) {
         return 0;
@@ -95,7 +95,7 @@ static int indexOfString(String *this, char c) {
     return strcspn(this->str, str2);
 }
 
-static String * concatString(String *this, String *str) {
+static String *concatString(String *this, String *str) {
     char *buf = NULL;
     String *s = NULL;
 
@@ -103,7 +103,7 @@ static String * concatString(String *this, String *str) {
         return NULL;
     }
 
-    buf = (char *) malloc(sizeof(char) * (strlen(this->str) + strlen(str->str)));
+    buf = (char *) malloc(sizeof(char) * (strlen(this->str) + strlen(str->str) + 1));
     strcpy(buf, this->str);
     strcat(buf, str->str);
     s = newString(buf);
@@ -112,8 +112,8 @@ static String * concatString(String *this, String *str) {
     return s;
 }
 
-static String * substringString(String *this, int begin, int end) {
-    int len = end - begin + 1;
+static String *substringString(String *this, int begin, int end) {
+    int len = end - begin;
     char *buf = NULL;
     String *str = NULL;
 
@@ -121,16 +121,16 @@ static String * substringString(String *this, int begin, int end) {
         return NULL;
     }
 
-    buf = (char *) malloc(sizeof(char) * len);
+    buf = (char *) malloc(sizeof(char) * (len + 1));
     strncpy(buf, &this->str[begin], len);
-    buf[end - begin] = '\0';
+    buf[len] = '\0';
     str = newString(buf);
     free(buf);
     buf = NULL;
     return str;
 }
 
-static String ** splitString(String *this, const char *delim) {
+static String **splitString(String *this, const char *delim) {
     char *buf = NULL, *p = NULL;
     int i = 0;
     String **arr = NULL;
@@ -139,7 +139,7 @@ static String ** splitString(String *this, const char *delim) {
         return NULL;
     }
 
-    buf = (char *) malloc(sizeof(char) * strlen(this->str));
+    buf = (char *) malloc(sizeof(char) * (strlen(this->str) + 1));
     strcpy(buf, this->str);
     p = strtok(buf, delim);
     for (i = 0; p; i++) {
@@ -159,7 +159,7 @@ static String ** splitString(String *this, const char *delim) {
     return arr;
 }
 
-static String * toLowerCaseString(String *this) {
+static String *toLowerCaseString(String *this) {
     char *buf = NULL, *p = this->str, *q = NULL;
     String *str = NULL;
 
@@ -167,7 +167,7 @@ static String * toLowerCaseString(String *this) {
         return NULL;
     }
 
-    buf = (char *) malloc(sizeof(char) * strlen(this->str));
+    buf = (char *) malloc(sizeof(char) * (strlen(this->str) + 1));
     q = buf;
     while (*p) {
         *q = tolower(*p);
@@ -180,7 +180,7 @@ static String * toLowerCaseString(String *this) {
     return str;
 }
 
-static String * toUpperCaseString(String *this) {
+static String *toUpperCaseString(String *this) {
     char *buf = NULL, *p = this->str, *q = NULL;
     String *str = NULL;
 
@@ -188,7 +188,7 @@ static String * toUpperCaseString(String *this) {
         return NULL;
     }
 
-    buf = (char *) malloc(sizeof(char) * strlen(this->str));
+    buf = (char *) malloc(sizeof(char) * (strlen(this->str) + 1));
     q = buf;
     while (*p) {
         *q = toupper(*p);
