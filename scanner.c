@@ -6,3 +6,17 @@
  */
 
 #include "scanner.h"
+
+Scanner *newScanner(FILE *src) {
+    Scanner *this = (Scanner *) malloc(sizeof(Scanner));
+    this->src = src;
+    this->close = deleteScanner;
+    return this;
+}
+
+void deleteScanner(Scanner *this) {
+    if (this) {
+        free(this);
+        this = NULL;
+    }
+}

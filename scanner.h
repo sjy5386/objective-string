@@ -9,6 +9,7 @@
 #define SCANNER_H_
 
 #include <stdio.h>
+#include <stdlib.h>
 
 #define SYSTEM_IN stdin
 #define SYSTEM_OUT stdout
@@ -18,6 +19,13 @@ typedef struct Scanner {
     /* field */
     struct Scanner *this;
     FILE *src;
+
+    /* method */
+    void (*close)(struct Scanner *);
 } Scanner;
 
-#endif // SCANNER_H
+Scanner *newScanner(FILE *);
+
+void deleteScanner(Scanner *);
+
+#endif // SCANNER_H_
