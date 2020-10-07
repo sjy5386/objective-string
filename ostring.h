@@ -41,34 +41,38 @@ typedef struct String {
     struct String *(*toLowerCase)(struct String *);
 
     struct String *(*toUpperCase)(struct String *);
+
+    struct String *(*trim)(struct String *);
 } String;
 
 String *newString(const char *);
 
 void deleteString(String *);
 
-static const char *String_get(String *this);
+static const char *String_get(String *);
 
-static void String_set(String *this, const char *str);
+static void String_set(String *, const char *);
 
-static size_t String_length(String *this);
+static size_t String_length(String *);
 
-static bool String_equals(String *this, String *str);
+static bool String_equals(String *, String *);
 
-static int String_compareTo(String *this, String *str);
+static int String_compareTo(String *, String *);
 
-static char String_charAt(String *this, int index);
+static char String_charAt(String *, int);
 
-static int String_indexOf(String *this, char c);
+static int String_indexOf(String *, char);
 
-static String *String_concat(String *this, String *str);
+static String *String_concat(String *, String *);
 
-static String *String_substring(String *this, int begin, int end);
+static String *String_substring(String *, int, int);
 
-static String **String_split(String *this, const char *delim);
+static String **String_split(String *, const char *);
 
-static String *String_toLowerCase(String *this);
+static String *String_toLowerCase(String *);
 
-static String *String_toUpperCase(String *this);
+static String *String_toUpperCase(String *);
+
+static String *String_trim(String *);
 
 #endif // OSTRING_H_

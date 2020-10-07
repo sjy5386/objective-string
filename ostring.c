@@ -25,6 +25,7 @@ String *newString(const char *str) { // constructor
     this->split = String_split;
     this->toLowerCase = String_toLowerCase;
     this->toUpperCase = String_toUpperCase;
+    this->trim = String_trim;
 
     return this;
 }
@@ -199,4 +200,16 @@ static String *String_toUpperCase(String *this) {
     free(buf);
     buf = NULL;
     return str;
+}
+
+static String *String_trim(String *this) {
+    int begin = 0, end = 0;
+
+    if (!this) {
+        return NULL;
+    }
+
+    begin = strspn(this->str, " ");
+    for (end = strlen(this->str); (end - 1 >= 0) && (this->str[end - 1] == ' '); end--);
+    return String_substring(this, begin, end);
 }
