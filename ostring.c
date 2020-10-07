@@ -13,18 +13,18 @@ String *newString(const char *str) { // constructor
     this->str = (char *) malloc(sizeof(char) * (strlen(str) + 1));
     strcpy(this->str, str);
 
-    this->get = getString;
-    this->set = setString;
-    this->length = lengthString;
-    this->equals = equalsString;
-    this->compareTo = compareToString;
-    this->charAt = charAtString;
-    this->indexOf = indexOfString;
-    this->concat = concatString;
-    this->substring = substringString;
-    this->split = splitString;
-    this->toLowerCase = toLowerCaseString;
-    this->toUpperCase = toUpperCaseString;
+    this->get = String_get;
+    this->set = String_set;
+    this->length = String_length;
+    this->equals = String_equals;
+    this->compareTo = String_compareTo;
+    this->charAt = String_charAt;
+    this->indexOf = String_indexOf;
+    this->concat = String_concat;
+    this->substring = String_substring;
+    this->split = String_split;
+    this->toLowerCase = String_toLowerCase;
+    this->toUpperCase = String_toUpperCase;
 
     return this;
 }
@@ -40,14 +40,14 @@ void deleteString(String *this) { // destructor
     }
 }
 
-static const char *getString(String *this) { // getter
+static const char *String_get(String *this) { // getter
     if (!this) {
         return NULL;
     }
     return this->str;
 }
 
-static void setString(String *this, const char *str) { // setter
+static void String_set(String *this, const char *str) { // setter
     if (!this) {
         return;
     }
@@ -60,32 +60,32 @@ static void setString(String *this, const char *str) { // setter
     strcpy(this->str, str);
 }
 
-static size_t lengthString(String *this) {
+static size_t String_length(String *this) {
     if (!this) {
         return 0;
     }
     return strlen(this->str);
 }
 
-static bool equalsString(String *this, String *str) {
+static bool String_equals(String *this, String *str) {
     if (!this || !str) {
         return false;
     }
     return strcmp(this->str, str->str) == 0;
 }
 
-static int compareToString(String *this, String *str) {
+static int String_compareTo(String *this, String *str) {
     return strcmp(this->str, str->str);
 }
 
-static char charAtString(String *this, int index) {
+static char String_charAt(String *this, int index) {
     if (!this || (index > strlen(this->str))) {
         return '\0';
     }
     return this->str[index];
 }
 
-static int indexOfString(String *this, char c) {
+static int String_indexOf(String *this, char c) {
     char str2[2] = {
             c, '\0'
     };
@@ -95,7 +95,7 @@ static int indexOfString(String *this, char c) {
     return strcspn(this->str, str2);
 }
 
-static String *concatString(String *this, String *str) {
+static String *String_concat(String *this, String *str) {
     char *buf = NULL;
     String *s = NULL;
 
@@ -112,7 +112,7 @@ static String *concatString(String *this, String *str) {
     return s;
 }
 
-static String *substringString(String *this, int begin, int end) {
+static String *String_substring(String *this, int begin, int end) {
     int len = end - begin;
     char *buf = NULL;
     String *str = NULL;
@@ -130,7 +130,7 @@ static String *substringString(String *this, int begin, int end) {
     return str;
 }
 
-static String **splitString(String *this, const char *delim) {
+static String **String_split(String *this, const char *delim) {
     char *buf = NULL, *p = NULL;
     int i = 0;
     String **arr = NULL;
@@ -159,7 +159,7 @@ static String **splitString(String *this, const char *delim) {
     return arr;
 }
 
-static String *toLowerCaseString(String *this) {
+static String *String_toLowerCase(String *this) {
     char *buf = NULL, *p = this->str, *q = NULL;
     String *str = NULL;
 
@@ -180,7 +180,7 @@ static String *toLowerCaseString(String *this) {
     return str;
 }
 
-static String *toUpperCaseString(String *this) {
+static String *String_toUpperCase(String *this) {
     char *buf = NULL, *p = this->str, *q = NULL;
     String *str = NULL;
 
